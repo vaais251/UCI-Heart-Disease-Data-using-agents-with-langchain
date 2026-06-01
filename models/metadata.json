@@ -1,0 +1,63 @@
+{
+  "model": "GradientBoostingClassifier (regularized)",
+  "threshold": 0.35,
+  "feature_columns": [
+    "age",
+    "trestbps",
+    "chol",
+    "thalch",
+    "oldpeak",
+    "ca",
+    "sex",
+    "cp",
+    "fbs",
+    "restecg",
+    "exang",
+    "slope",
+    "thal",
+    "ca_missing",
+    "thal_missing"
+  ],
+  "cluster_features": [
+    "age",
+    "trestbps",
+    "chol",
+    "thalch",
+    "oldpeak",
+    "ca"
+  ],
+  "phenotype_map": {
+    "0": {
+      "name": "Younger lower-risk",
+      "priority": 4,
+      "disease_rate": 0.283,
+      "size": 343
+    },
+    "1": {
+      "name": "Reduced-exertion / low max-HR",
+      "priority": 3,
+      "disease_rate": 0.664,
+      "size": 292
+    },
+    "2": {
+      "name": "Advanced multi-vessel disease",
+      "priority": 1,
+      "disease_rate": 0.838,
+      "size": 74
+    },
+    "3": {
+      "name": "Hypertensive-hypercholesterolemic",
+      "priority": 2,
+      "disease_rate": 0.739,
+      "size": 211
+    }
+  },
+  "test_metrics": {
+    "accuracy": 0.8261,
+    "precision": 0.7778,
+    "recall": 0.9608,
+    "specificity": 0.6585,
+    "f1": 0.8596,
+    "roc_auc": 0.9081
+  }
+}

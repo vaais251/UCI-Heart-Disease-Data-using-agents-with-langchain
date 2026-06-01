@@ -35,6 +35,12 @@ CATEGORICAL_FEATURES = ["sex", "cp", "fbs", "restecg", "exang", "slope", "thal"]
 # Binary "was this value originally missing?" flags. Passed through as-is.
 FLAG_FEATURES = ["ca_missing", "thal_missing"]
 
+# Full ordered feature list the risk model expects as input.
+FEATURE_COLUMNS = NUMERIC_FEATURES + CATEGORICAL_FEATURES + FLAG_FEATURES
+
+# Core numeric features used for K-means phenotype clustering (Step A7).
+CLUSTER_FEATURES = ["age", "trestbps", "chol", "thalch", "oldpeak", "ca"]
+
 # Deliberately EXCLUDED from features:
 #   id      -> just a row number, not predictive
 #   dataset -> which hospital; a confound, not a clinical measurement
@@ -55,7 +61,10 @@ def prepare_frame(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
 
     # Binary target: 0 = no disease, 1-4 = disease present -> 1.
-    df["target"] = (df["num"] > 0).astype(int)
+    # Guarded so this also works at inference time, when a new patient
+    # record has no 'num' column.
+    if "num" in df.columns:
+        df["target"] = (df["num"] > 0).astype(int)
 
     # Hidden missingness: a serum cholesterol of 0 mg/dl is biologically
     # impossible, so it really means "not recorded". Turn it into a real NaN
