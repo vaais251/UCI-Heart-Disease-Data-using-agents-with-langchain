@@ -82,6 +82,39 @@ def assess(patient: dict) -> dict:
     return {"risk": predict_risk(patient), "phenotype": predict_phenotype(patient)}
 
 
+@lru_cache(maxsize=1)
+def _load_rf():
+    """Load the optional Random Forest model (for the UI's model comparison)."""
+    path = MODELS_DIR / "rf_model.joblib"
+    return joblib.load(path) if path.exists() else None
+
+
+def full_assessment(patient: dict) -> dict:
+    """Everything the web UI needs in one call: both models' probabilities,
+    the high-risk flag (from the deployed Gradient Boosting model), and the
+    risk phenotype."""
+    risk_model, phenotype_model, metadata = _load()
+    frame = _to_frame(patient)
+    X = frame[FEATURE_COLUMNS]
+
+    gb_prob = float(risk_model.predict_proba(X)[0, 1])
+    rf = _load_rf()
+    rf_prob = float(rf.predict_proba(X)[0, 1]) if rf is not None else None
+
+    threshold = metadata["threshold"]
+    cluster = int(phenotype_model.predict(frame[CLUSTER_FEATURES])[0])
+    phenotype = {"cluster": cluster, **metadata["phenotype_map"][str(cluster)]}
+
+    return {
+        "gradient_boosting": round(gb_prob, 4),
+        "random_forest": round(rf_prob, 4) if rf_prob is not None else None,
+        "probability": round(gb_prob, 4),      # primary = deployed GB model
+        "is_high_risk": gb_prob >= threshold,
+        "threshold": threshold,
+        "phenotype": phenotype,
+    }
+
+
 if __name__ == "__main__":
     # Round-trip self-test: load the saved artifacts and assess two patients.
     high_risk = {

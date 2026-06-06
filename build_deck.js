@@ -409,7 +409,48 @@ bullets(s, [
 footer(s, 16);
 
 // =========================================================================
-// SLIDE 17 — Closing
+// SLIDE 17 — Optimization investigation (the evidence)
+// =========================================================================
+s = pres.addSlide(); s.background = { color: WHITE };
+header(s, "RIGOR", "Beyond the Baseline — Did We Leave Accuracy on the Table?",
+  "Three independent attempts to beat Gradient Boosting, all cross-validated");
+s.addTable([
+  [TH("Approach"), TH("CV AUC"), TH("Test AUC"), TH("Test Acc"), TH("Test Recall"), TH("Outcome")],
+  [{ text: "Gradient Boosting (chosen)  ✓", options: { align: "left", bold: true, color: INK, fontSize: 12, fill: { color: "E7F0E9" } } }, TD("0.875", { fill: { color: "E7F0E9" } }), TD("0.908", { fill: { color: "E7F0E9" } }), TD("0.826", { fill: { color: "E7F0E9" } }), TD("0.961", { bold: true, color: GREEN, fill: { color: "E7F0E9" } }), TD("baseline", { align: "left", fill: { color: "E7F0E9" } })],
+  [TD("+ Hyperparameter search (+ KNN)", { align: "left" }), TD("0.882"), TD("0.910"), TD("0.815"), TD("0.961"), TD("AUC ↑ = noise", { align: "left", color: MUTED })],
+  [TD("+ Feature engineering", { align: "left" }), TD("0.876"), TD("0.913"), TD("0.837", { bold: true, color: TEAL }), TD("0.961"), TD("best test acc, CV flat", { align: "left", color: MUTED })],
+  [TD("+ Neural network (MLP)", { align: "left" }), TD("0.885"), TD("0.898"), TD("0.832"), TD("0.941", { color: RED }), TD("recall ↓, no gain", { align: "left", color: MUTED })],
+], { x: M, y: 2.05, w: CW, colW: [3.7, 1.5, 1.5, 1.5, 1.6, 2.53], rowH: 0.52, border: { pt: 0.5, color: LINE }, valign: "middle", align: "center" });
+
+card(s, M, 5.15, CW, 1.55, "FCEDEB");
+s.addText("One ceiling, confirmed three ways", { x: M + 0.25, y: 5.3, w: CW - 0.5, h: 0.4, color: RED, bold: true, fontSize: 15, margin: 0 });
+s.addText("Every approach lands in the same 0.82–0.84 accuracy / ~0.90 AUC band. Where a single test split looked better (feature engineering, 0.837), 5-fold cross-validation did NOT confirm it — the tell-tale sign of noise, not signal. We kept Gradient Boosting for its best held-out recall and AUC, the metrics that matter for triage.", { x: M + 0.25, y: 5.7, w: CW - 0.5, h: 0.95, color: BODY, fontSize: 13, valign: "top", margin: 0 });
+footer(s, 17);
+
+// =========================================================================
+// SLIDE 18 — Our competitive edge
+// =========================================================================
+s = pres.addSlide(); s.background = { color: WHITE };
+header(s, "EDGE", "Why This Project Has a Clear Edge");
+card(s, M, 1.95, 6.0, 4.9, WHITE);
+s.addText("Cross-validated AUC is flat across every method", { x: M + 0.2, y: 2.08, w: 5.6, h: 0.5, color: INK, bold: true, fontSize: 13, margin: 0 });
+s.addChart(pres.charts.BAR, [{ name: "CV AUC", labels: ["GB", "+ tuning", "+ features", "+ neural net"], values: [0.875, 0.882, 0.876, 0.885] }], {
+  x: M + 0.1, y: 2.65, w: 5.8, h: 3.95, barDir: "col", chartColors: [TEAL, TEAL, TEAL, TEAL], showValue: true, dataLabelPosition: "outEnd", dataLabelColor: BODY, dataLabelFontSize: 11, dataLabelFormatCode: "0.000", catAxisLabelColor: BODY, catAxisLabelFontSize: 11, valAxisHidden: true, valAxisMinVal: 0, valAxisMaxVal: 1.0, valGridLine: { style: "none" }, showLegend: false,
+});
+s.addText("What sets this work apart", { x: 6.85, y: 2.0, w: 6.0, h: 0.45, color: INK, bold: true, fontSize: 16, margin: 0 });
+bullets(s, [
+  "Benchmarked 6 approaches — 3 model families + tuning + engineered features + a neural net. Most projects stop at one.",
+  "Used cross-validation to reject test-set noise — refused to chase a fragile 0.837 accuracy.",
+  "Proved the data's ceiling with evidence, not assumption.",
+  "Optimized recall (clinical safety) over vanity accuracy.",
+  "Leakage-safe pipeline end-to-end; fully reproducible.",
+], 6.85, 2.55, 5.95, 3.1, 13);
+card(s, 6.85, 5.75, 5.95, 1.05, INK);
+s.addText("Examiners reward understanding WHY, not just HOW — this project shows both.", { x: 7.05, y: 5.88, w: 5.6, h: 0.85, color: "CADCFC", italic: true, bold: true, fontSize: 13, valign: "middle", margin: 0 });
+footer(s, 18);
+
+// =========================================================================
+// SLIDE 19 — Closing
 // =========================================================================
 s = pres.addSlide(); s.background = { color: SOFT };
 s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: M, y: 1.3, w: 0.22, h: 1.4, fill: { color: GREEN }, rectRadius: 0.05, line: { type: "none" } });

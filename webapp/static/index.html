@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CardioTriage AI — Risk Assessment</title>
+
+  <!-- Inter font (falls back to the system sans-serif if offline) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <!-- Header: medical icon + app name + subtitle -->
+  <header class="app-header">
+    <div class="brand">
+      <svg class="logo" width="30" height="30" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round"
+           stroke-linejoin="round" aria-hidden="true">
+        <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 1 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z" />
+        <path d="M3.5 12.5h3.2l1.6-3 2.6 6 1.8-3.6 1.1 2.1h3.7" />
+      </svg>
+      <div class="brand-text">
+        <h1>CardioTriage AI <span>— Risk Assessment</span></h1>
+        <p class="subtitle">Machine-learning heart-disease risk prediction</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Two-panel responsive layout (stacks on small screens) -->
+  <main class="layout">
+    <section class="card" id="form-panel">
+      <h2>Patient details</h2>
+      <form id="patient-form">
+        <div class="form-grid">
+
+          <div class="field">
+            <label for="age">Age <span class="unit">years</span></label>
+            <input type="number" id="age" name="age" min="18" max="110" step="1" required placeholder="e.g. 54" />
+          </div>
+
+          <div class="field">
+            <label for="sex">Sex</label>
+            <select id="sex" name="sex" required>
+              <option value="" disabled selected>Select…</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="cp">Chest pain type</label>
+            <select id="cp" name="cp" required>
+              <option value="" disabled selected>Select…</option>
+              <option value="typical angina">Typical angina</option>
+              <option value="atypical angina">Atypical angina</option>
+              <option value="non-anginal">Non-anginal pain</option>
+              <option value="asymptomatic">Asymptomatic</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="trestbps">Resting blood pressure <span class="unit">mm Hg</span></label>
+            <input type="number" id="trestbps" name="trestbps" min="60" max="260" step="1" required placeholder="e.g. 130" />
+          </div>
+
+          <div class="field">
+            <label for="chol">Serum cholesterol <span class="unit">mg/dl</span></label>
+            <input type="number" id="chol" name="chol" min="0" max="700" step="1" required placeholder="e.g. 240" />
+          </div>
+
+          <div class="field">
+            <label for="fbs">Fasting blood sugar &gt; 120 mg/dl</label>
+            <select id="fbs" name="fbs" required>
+              <option value="" disabled selected>Select…</option>
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="restecg">Resting ECG</label>
+            <select id="restecg" name="restecg" required>
+              <option value="" disabled selected>Select…</option>
+              <option value="normal">Normal</option>
+              <option value="lv hypertrophy">LV hypertrophy</option>
+              <option value="st-t abnormality">ST-T abnormality</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="thalch">Max heart rate achieved <span class="unit">bpm</span></label>
+            <input type="number" id="thalch" name="thalch" min="60" max="220" step="1" required placeholder="e.g. 150" />
+          </div>
+
+          <div class="field">
+            <label for="exang">Exercise-induced angina</label>
+            <select id="exang" name="exang" required>
+              <option value="" disabled selected>Select…</option>
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="oldpeak">ST depression (oldpeak)</label>
+            <input type="number" id="oldpeak" name="oldpeak" min="0" max="10" step="0.1" required placeholder="e.g. 1.0" />
+          </div>
+
+          <div class="field">
+            <label for="slope">Slope of peak exercise ST</label>
+            <select id="slope" name="slope" required>
+              <option value="" disabled selected>Select…</option>
+              <option value="upsloping">Upsloping</option>
+              <option value="flat">Flat</option>
+              <option value="downsloping">Downsloping</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="ca">Major vessels coloured <span class="unit">0–3</span></label>
+            <input type="number" id="ca" name="ca" min="0" max="3" step="1" required placeholder="e.g. 0" />
+          </div>
+
+          <div class="field">
+            <label for="thal">Thalassemia</label>
+            <select id="thal" name="thal" required>
+              <option value="" disabled selected>Select…</option>
+              <option value="normal">Normal</option>
+              <option value="fixed defect">Fixed defect</option>
+              <option value="reversable defect">Reversible defect</option>
+            </select>
+          </div>
+
+        </div>
+        <button type="submit" class="btn-predict">Predict risk</button>
+      </form>
+    </section>
+
+    <section class="card" id="result-panel">
+      <h2>Prediction result</h2>
+      <p class="placeholder">Fill in the patient details and click &ldquo;Predict risk&rdquo;.</p>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>For research and educational use only — not a substitute for professional
+       medical diagnosis. Predictions are estimates from a model trained on the
+       UCI heart-disease dataset.</p>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CardioTriage AI — Reasoning Console</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Inter for UI, JetBrains Mono for technical traces -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/static/console.css" />
+</head>
+<body>
+  <!-- ===== Header: brand + patient summary + run button ===== -->
+  <header class="console-header">
+    <div class="header-inner">
+
+      <div class="brand">
+        <svg class="logo" width="30" height="30" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round"
+             stroke-linejoin="round" aria-hidden="true">
+          <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 1 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z" />
+          <path d="M3.5 12.5h3.2l1.6-3 2.6 6 1.8-3.6 1.1 2.1h3.7" />
+        </svg>
+        <div class="brand-text">
+          <h1>CardioTriage AI <span>// Reasoning Console</span></h1>
+          <p class="subtitle">A* search · forward-chaining KB · Gemini orchestration</p>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <!-- Patient summary chip (wired in stage b) -->
+        <div class="patient-chip" id="patient-chip">
+          <span class="chip-label">No patient loaded</span>
+          <span class="chip-meta">ML risk —&nbsp;·&nbsp;phenotype —</span>
+        </div>
+
+        <!-- Patient selector (wired in stage b) -->
+        <select class="patient-select" id="patient-select" aria-label="Select patient" disabled>
+          <option>Select patient…</option>
+        </select>
+
+        <button class="btn-run" id="btn-run" disabled>
+          <span class="run-dot"></span> Run reasoning
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ===== Three reasoning zones ===== -->
+  <main class="console-grid">
+
+    <!-- ZONE 1 — A* search path (left, full height) -->
+    <section class="panel panel-search" id="zone-search">
+      <div class="panel-head">
+        <span class="panel-num">01</span>
+        <h2>A* Search Path</h2>
+        <span class="panel-tag">state-space planner</span>
+      </div>
+      <div class="panel-body">
+        <p class="zone-placeholder">The agent's planning path will appear here, node by node.</p>
+      </div>
+    </section>
+
+    <!-- right column holds zones 2 + 3 -->
+    <div class="right-stack">
+
+      <!-- ZONE 2 — forward-chaining trace -->
+      <section class="panel panel-trace" id="zone-trace">
+        <div class="panel-head">
+          <span class="panel-num">02</span>
+          <h2>Forward-Chaining Trace</h2>
+          <span class="panel-tag">rule engine</span>
+        </div>
+        <div class="panel-body mono">
+          <p class="zone-placeholder">Inference log — rules fire here line by line.</p>
+        </div>
+      </section>
+
+      <!-- ZONE 3 — Gemini briefing -->
+      <section class="panel panel-briefing" id="zone-briefing">
+        <div class="panel-head">
+          <span class="panel-num">03</span>
+          <h2>Gemini Briefing</h2>
+          <span class="panel-tag">LLM orchestrator</span>
+        </div>
+        <div class="panel-body">
+          <p class="zone-placeholder">The plain-English triage briefing will type out here.</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="console-footer">
+    <p>Decision-support demonstrator — A* + rule-based reasoning, narrated by an LLM. Not for clinical use.</p>
+  </footer>
+
+  <script src="/static/console.js"></script>
+</body>
+</html>
